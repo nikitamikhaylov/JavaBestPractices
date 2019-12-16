@@ -34,11 +34,16 @@ public class HelloController
         return helper.getMaxRateForLastMonth();
     }
 
-    @RequestMapping("/temperature")
+    @RequestMapping("/temperatures")
     public String getTemperature() throws Exception {
         helper.performRequest();
-        List<Double> temperature = darkSkyService.getWeatherDataForDates(helper.getDates());
-        return "OK";
+        List<Double> temperatures = darkSkyService.getWeatherDataForDates(helper.getDates());
+        StringBuilder answer = new StringBuilder();
+        for (Double temp: temperatures)
+        {
+            answer.append(temp.toString()).append('\n');
+        }
+        return answer.toString();
     }
 
     @RequestMapping(value = "/predict")
