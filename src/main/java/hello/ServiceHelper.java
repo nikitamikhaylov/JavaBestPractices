@@ -1,17 +1,23 @@
 package hello;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 public class ServiceHelper {
 
     private final String URL;
     private final RestTemplate restTemplate;
+
+    private final List<Double> rates = new ArrayList<>();
+    private final List<Date> dates = new ArrayList<>();
 
     public ServiceHelper(String URL) {
         this.URL = URL;
@@ -23,31 +29,48 @@ public class ServiceHelper {
         this.restTemplate = restTemplate;
     }
 
-    public String getMaxRateForLastMonth() {
-        Double maxRate = getMax(parseResponseAndGetRates(getRateForLastMonth()));
+    public void performRequest() throws Exception {
+        parseResponseAndFillRatesAndDates(getRateForLastMonth());
+    }
+
+    public String getMaxRateForLastMonth() throws Exception {
+        performRequest();
+        Double maxRate = getMax(getRates());
         return "Max USD v.s. RUB rate for the last month is " + maxRate;
     }
 
     public String[] getRateForLastMonth() {
         ResponseEntity<String> response = restTemplate.getForEntity(URL + "30", String.class);
         assert (response.getStatusCode().equals(HttpStatus.OK));
+        System.out.println(response.getBody());
         return Objects.requireNonNull(response.getBody()).split("\n");
     }
 
-    public static List<Double> parseResponseAndGetRates(String[] lines) {
-        List<Double> answer = new ArrayList<Double>();
-        for (String line1 : lines) {
-            String[] line = line1.split(",");
-            answer.add(Double.parseDouble(line[line.length - 1]));
+    private void parseResponseAndFillRatesAndDates(String[] lines) throws ParseException {
+        for (String line : lines) {
+            String[] splitted_line = line.split(",");
+            Double rate = Double.parseDouble(splitted_line[splitted_line.length - 1]);
+            Date date = new SimpleDateFormat("yyyy-MM-dd").parse(splitted_line[1]);
+            rates.add(rate);
+            dates.add(date);
         }
-        return answer;
     }
 
-    public static Double getMax(List<Double> rates) {
+    public Double getMax(List<Double> rates) {
         Double maxRate = 0.;
         for (Double current: rates) {
             maxRate = Math.max(maxRate, current);
         }
         return maxRate;
     }
+
+    public List<Double> getRates() {
+        return rates;
+    }
+
+    public List<Date> getDates() {
+        return dates;
+    }
+
+
 }
