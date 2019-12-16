@@ -1,5 +1,6 @@
 package hello;
 
+import hello.services.ResponseRBKService;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +12,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-public class ServiceHelperTest {
+public class ResponseRBKServiceTest {
     private static final String URL =
             "http://export.rbc.ru/free/selt.0/free.fcgi?period=DAILY&tickers=USD000000TOD&separator=,&data_format=BROWSER&lastdays=";
 
@@ -38,21 +39,14 @@ public class ServiceHelperTest {
             "USD000000TOD,2019-10-22,63.695,63.8025,63.56,63.68,606826000,63.6713\n" +
             "USD000000TOD,2019-10-23,63.74,63.9825,63.69,63.9425,770583000,63.8508";
 
-//    @Test
-//    public void parseResponseAndGetRates() {
-//        String[] lines = {"1", "2.0", "3.999"};
-//        List<Double> doubles = Arrays.asList(1., 2., 3.999);
-//        assertEquals(doubles, ServiceHelper.parseResponseAndGetRates(lines));
-//    }
-
     @Test
     public void getMax() {
         List<Double> a = Arrays.asList(0., 0., 0.);
-        ServiceHelper serviceHelper = new ServiceHelper("");
-        assertEquals(serviceHelper.getMax(a), 0, 1e-10);
+        ResponseRBKService responseRBKService = new ResponseRBKService("");
+        assertEquals(responseRBKService.getMax(a), 0, 1e-10);
 
         List<Double> b = Arrays.asList(1., 3., 2.);
-        assertEquals(serviceHelper.getMax(b), 3., 1e-10);
+        assertEquals(responseRBKService.getMax(b), 3., 1e-10);
     }
 
     @Test
@@ -65,7 +59,7 @@ public class ServiceHelperTest {
         RestTemplate restTemplate = mock(RestTemplate.class);
         when(restTemplate.getForEntity(URL+"30", String.class)).thenReturn(responseEntity);
 
-        ServiceHelper helper = new ServiceHelper(URL, restTemplate);
+        ResponseRBKService helper = new ResponseRBKService(URL, restTemplate);
         assertEquals(helper.getMaxRateForLastMonth(), "Max USD v.s. RUB rate for the last month is 65.3354");
     }
 }

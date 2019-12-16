@@ -1,4 +1,4 @@
-package hello;
+package hello.services;
 
 import hello.database.DateWeather;
 import hello.database.DateWeatherRepository;
@@ -18,7 +18,6 @@ public class DatabaseService
 {
     @Autowired
     DateWeatherRepository dateWeatherRepository;
-
 
     public List<DateWeather> getAllData()
     {

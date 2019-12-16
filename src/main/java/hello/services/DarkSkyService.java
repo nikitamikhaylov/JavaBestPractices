@@ -1,8 +1,7 @@
-package hello;
+package hello.services;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hello.database.DateWeather;
-import hello.database.DateWeatherRepository;
 import hello.presentation.Example;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
