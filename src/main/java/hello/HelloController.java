@@ -31,7 +31,7 @@ public class HelloController
 
     @RequestMapping("/maxrate")
     public String getMaxRate() throws Exception {
-        return helper.getMaxRateForLastMonth();
+        return "Max USD v.s. RUB rate for the last month is " + helper.getMaxRateForLastMonth().toString();
     }
 
     @RequestMapping("/temperatures")
