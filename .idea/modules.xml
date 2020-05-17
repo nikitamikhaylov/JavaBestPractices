@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/darkspy/darkspy.iml" filepath="$PROJECT_DIR$/darkspy/darkspy.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jakalletti.iml" filepath="$PROJECT_DIR$/jakalletti.iml" />
+      <module fileurl="file://$PROJECT_DIR$/predict/predict.iml" filepath="$PROJECT_DIR$/predict/predict.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rbk/rbk.iml" filepath="$PROJECT_DIR$/rbk/rbk.iml" />
+    </modules>
+  </component>
+</project>

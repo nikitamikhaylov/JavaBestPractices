@@ -7,7 +7,13 @@
 
     <groupId>mipt</groupId>
     <artifactId>jakalletti</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>darkspy</module>
+        <module>rbk</module>
+        <module>predict</module>
+    </modules>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

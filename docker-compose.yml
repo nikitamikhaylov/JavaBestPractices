@@ -1,0 +1,16 @@
+version: '3'
+services:
+  predict:
+    build: ./predict/
+    ports:
+      - "8083:8083"
+
+  darkspy:
+    build: ./darkspy/
+    ports:
+      - "8081:8081"
+
+  rbk:
+    build: ./rbk/
+    ports:
+      - "8082:8082"
