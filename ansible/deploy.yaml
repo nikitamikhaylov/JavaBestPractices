@@ -1,0 +1,33 @@
+---
+-
+  hosts: rbkserver
+  remote_user: mftiedu
+  tasks:
+    - 
+      shell: "mkdir -p edu/jakalletti"
+      name: "Create destination directory"
+    -
+      copy: "src=../predict/target/predict-1.0-SNAPSHOT.jar dest=edu/jakalletti"
+      name: "Copy prediction-service to destination package"
+    - 
+      copy: "src=../darkspy/target/darkspy-1.0-SNAPSHOT.jar dest=edu/jakalletti"
+      name: "Copy darkspy-service to destination package"
+    - 
+      name: "Deploy predictions-service"
+      shell: "nohup java -jar edu/jakalletti/predict-1.0-SNAPSHOT.jar -Dserver.port=8083 &"
+    - 
+      name: "Deploy darkspy-service"
+      shell: "nohup java -jar edu/jakalletti/darkspy-1.0-SNAPSHOT.jar -Dserver.port=8081 &"
+- 
+  hosts: dbserver
+  remote_user: edumfti
+  tasks: 
+    -
+      shell: "mkdir -p edu/jakalletti"
+      name: "Create destination directory"
+    -
+      copy: "src=../rbk/target/rbk-1.0-SNAPSHOT.jar dest=edu/jakalletti/  "
+      name: "Copy rbc-service to destination package"
+    -
+      name: "Deploy rbk-service"
+      shell: "nohup java -jar /edu/jakalletti/rbk-1.0-SNAPSHOT.jar -Dserver.port=8082 &"
