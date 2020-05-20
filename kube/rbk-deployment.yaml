@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rbk-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      name: my-pod
+      labels:
+        app: my-app
+    spec:
+      containers:
+        - image: docker-rbk
+          name: rbk
+          ports:
+            - containerPort: 8082
+          imagePullPolicy: IfNotPresent
